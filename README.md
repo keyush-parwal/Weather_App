@@ -1,158 +1,87 @@
-#  Nodejs + Express + Open Weather
+# README - Weather App
+This is a Node.js weather app that uses the OpenWeatherMap API to fetch real-time weather data and store it in a MySQL database. The app can check weather conditions, store weather data, and alert users if the temperature of a specific city exceeds a threshold.
 
-Following instructions from
-https://codeburst.io/build-a-weather-website-in-30-minutes-with-node-js-express-openweather-a317f904897b
+Prerequisites
+Before you begin, ensure you have met the following requirements:
 
+Node.js and npm installed (download from Node.js).
+MySQL installed (download from MySQL).
+An API key from OpenWeatherMap (free registration).
+Project Setup
+Clone the repository:
 
-* OpenWeatherMap.org account https://openweathermap.org/api
-* Create an empty directory named weather-app.
-* Open up your console, navigate to our new directory and run npm init.
-* Fill out the required information to initialize our project.
-* Within our weather-app directory, create a file named server.js — this file will house the code for our application.
-* npm install --save express
-* install in server.js
-```javascript
-const express = require('express')
-const app = express()
+Copy code
+git clone <repository-url>
+Navigate into the project directory:
 
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-})
+Copy code
+cd nodejs-weatherapp
+Install project dependencies:
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
-})
-```
+Copy code
+npm install
+Configure MySQL Database:
 
-* Run: `node server.js`
+Set up a MySQL database called weatherapp.
+Create the weather_data table using the SQL commands provided below.
+Set up environment variables:
 
-* Now open your browser and visit: http://localhost:3000
+Create a .env file in the project root.
+Add the following variables:
+makefile
+Copy code
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_password
+DB_NAME=weatherapp
+WEATHER_API_KEY=your_openweathermap_api_key
+Start the server:
 
-* Install template system: `npm install ejs --save`
+Copy code
+npm start
+The app should now be running on http://localhost:3000.
 
-* Edit server.js: `app.set('view engine', 'ejs')`
+Creating the weather_data Table in weatherapp Database
+To set up the database, follow these steps:
 
-* Create directory/file: `views\index.ejs`
+Login to MySQL:
 
-* Edit into index.ejs file basic boilerplate for front end:
+Copy code
+mysql -u root -p
+Create the weatherapp database:
 
-```
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Test</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
-  </head>
-  <body>
-    <div class="container">
-      <fieldset>
-        <form action="/" method="post">
-          <input name="city" type="text" class="ghost-input" placeholder="Enter a City" required>
-          <input type="submit" class="ghost-button" value="Get Weather">
-        </form>
-      </fieldset>
-    </div>
-  </body>
-</html>
-```
+sql
+Copy code
+CREATE DATABASE weatherapp;
+Use the weatherapp database:
 
-* In server.js, connect the template by replaceing Hello World line `res.render('index');`
-* Run again: `node server.js`
+sql
+Copy code
+USE weatherapp;
+Create the weather_data table:
 
-* Add css directory and file: `public\css\index.js`
+sql
+Copy code
+create table weather_data( 
+id int auto_increment primary key,
+city varchar(20),
+temperature decimal,
+date timestamp, 
+weatherCondition varchar(20));
 
-* Expose this fule with express by adding line to server.js:
-`app.use(express.static('public'));`
+Verify the table is created:
 
-* Set up POST route:
-```javascript
-app.post('/', function (req, res) {
-  res.render('index');
-})
-```
+sql
+Copy code
+SHOW TABLES;
+Check the table structure:
 
-* install Middleware: `npm install body-parser --save`
-
-* Edit server.js to add middleware:
-```javascript
-const bodyParser = require('body-parser');
-// ...
-app.use(bodyParser.urlencoded({ extended: true }));
-```
-
-* In server.js - log city to the console (add to existing post):
-```javascript
-app.post('/', function (req, res) {
-  res.render('index');
-  console.log(req.body.city);
-})
-```
-
-* Test it (to make sure city shows in console): `node server.js`
-
-* http://localhost:3000/
-
-
-* Setting up our URL - Include at top of server.js:
-```javascript
-const request = require('request');
-const apiKey = '*****************';
-```
-
-*  Setting up our URL - In server.js POST section add:
-```javascript
-let city = req.body.city;
-let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
-```
-
-* Make our API call (inside POST request)
-
-```javascript
-request(url, function (err, response, body) {
-    if(err){
-      res.render('index', {weather: null, error: 'Error, please try again'});
-```
-
-* Display the weather
-```javascript
-} else {
-  let weather = JSON.parse(body)
-  if(weather.main == undefined){
-    res.render('index', {weather: null, error: 'Error, please try again'});
-  } else {
-    let weatherText = `It's ${weather.main.temp} degrees in ${weather.name}!`;
-    res.render('index', {weather: weatherText, error: null});
-  }
-}
-```
-
-* Install request module
-`npm install request --save`
-
-
-* Update ejs template code to reflect the what we get back from the api
-```
-<% if(weather !== null){ %>
-  <p><%= weather %></p>
-<% } %>
-<% if(error !== null){ %>
-  <p><%= error %></p>
-<% } %>
-```
-
-
-* Make apikey.js file private folder, and privatize the apikey
-
-* added more text:
-
-```javascript
-let weatherTextExpanded = `It's ${weather.main.temp} degrees, with
-  ${weather.main.humidity}% humidity in ${weather.name}!`;
-```
-
-
-
-
-.
+sql
+Copy code
+DESCRIBE weather_data;
+Available Scripts
+npm start: Starts the Node.js server on the default port (3000).
+npm run dev: Starts the Node.js server with nodemon for development.
+Additional Notes
+Ensure your MySQL server is running.
+Replace your_password and your_openweathermap_api_key in the .env file with your actual MySQL password and OpenWeatherMap API key.
