@@ -1,0 +1,30 @@
+{
+  "name": "nodejs-weatherapp",
+  "version": "1.0.0",
+  "description": "Following instructions from\r https://codeburst.io/build-a-weather-website-in-30-minutes-with-node-js-express-openweather-a317f904897b",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csjcode/nodejs-weatherapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/csjcode/nodejs-weatherapp/issues"
+  },
+  "homepage": "https://github.com/csjcode/nodejs-weatherapp#readme",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "ejs": "^2.7.4",
+    "express": "^4.21.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.11.3",
+    "node-fetch": "^3.3.2",
+    "nodemon": "^3.1.7",
+    "request": "^2.88.2"
+  }
+}

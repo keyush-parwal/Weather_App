@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Graph for <%= city %></title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Temperature of <%= city %> - Past 7 Days</h1>
+
+        <!-- Display the calculated weather statistics -->
+        <div class="weather-stats">
+            <p><strong>Average Temperature:</strong> <%= avgTemp %> °C</p>
+            <p><strong>Maximum Temperature:</strong> <%= maxTemp %> °C</p>
+            <p><strong>Minimum Temperature:</strong> <%= minTemp %> °C</p>
+            <p><strong>Dominant Weather Condition:</strong> <%= dominantCondition %></p>
+        </div>
+
+        <!-- Chart for displaying temperature trends -->
+        <canvas id="temperatureChart" width="400" height="200"></canvas>
+
+        <script>
+            // Safely pass server-side data to client-side using <%- JSON.stringify(pastTemperatures) %>
+            const pastTemperatures = <%- JSON.stringify(pastTemperatures) %>;
+
+            // Extract the dates and temperatures
+            const labels = pastTemperatures.map(item => item.date);
+            const data = pastTemperatures.map(item => item.temperature);
+
+            // Create the chart
+            const ctx = document.getElementById('temperatureChart').getContext('2d');
+            const temperatureChart = new Chart(ctx, {
+                type: 'line', // Line chart for temperature trend
+                data: {
+                    labels: labels, // Dates
+                    datasets: [{
+                        label: 'Temperature (°C)',
+                        data: data, // Temperatures
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+
+        <!-- Button to go back to the home page -->
+        <form action="/" method="GET">
+            <button type="submit" class="btn btn-primary mt-3">Go Back</button>
+        </form>
+    </div>
+</body>
+</html>
