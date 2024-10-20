@@ -11,13 +11,13 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
 // Your OpenWeatherMap API key
-const API_KEY = "07d39344c9008ed255a98406f4b93016";
+const API_KEY = "your_key";
 
 // MySQL Connection Setup
 const db = mysql.createConnection({
   host: "localhost",
   user: "root", // Your MySQL user
-  password: "Keyush@123", // Your MySQL password
+  password: "your_password", // Your MySQL password
   database: "weatherapp", // Your database name
 });
 
